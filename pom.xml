@@ -5,7 +5,7 @@
 
     <groupId>br.com.perguntadodia</groupId>
     <artifactId>star-wars-api</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.2</version>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -21,7 +21,6 @@
     		<artifactId>spring-data-commons</artifactId>
     		<version>2.1.6.RELEASE</version>
     	</dependency>
-
 
     	<dependency>
     		<groupId>com.google.code.gson</groupId>

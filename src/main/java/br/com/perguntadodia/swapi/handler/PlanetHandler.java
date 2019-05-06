@@ -19,8 +19,19 @@ public class PlanetHandler {
   }
 
   public Mono<ServerResponse> all(ServerRequest serverRequest) {
-    Flux<Planet> shows = this.planetRepository.findAll();
-    return ServerResponse.ok().body(shows, Planet.class);
+    Flux<Planet> planets = this.planetRepository.findAll();
+    return ServerResponse.ok().body(planets, Planet.class);
   }
-  
+
+  public Mono<ServerResponse> byId(ServerRequest serverRequest) {
+    String id = serverRequest.pathVariable("id");
+    Mono<Planet> planet = this.planetRepository.findById(id);  
+    return ServerResponse.ok().body(planet, Planet.class);
+  }
+
+  public Mono<ServerResponse> byName(ServerRequest serverRequest){
+    String name = serverRequest.pathVariable("name");
+    Mono<Planet> planet = this.planetRepository.findByName(name);
+    return ServerResponse.ok().body(planet, Planet.class);
+  }
 }
