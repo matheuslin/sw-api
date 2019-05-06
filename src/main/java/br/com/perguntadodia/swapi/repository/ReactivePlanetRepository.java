@@ -24,6 +24,16 @@ public class ReactivePlanetRepository implements ReactiveCrudRepository<Planet, 
         planetMap.put(4, new Planet(4, "Talos IV"));
     }
 
+    public Mono<Planet> findByName(String name){
+        for (Integer id : planetMap.keySet()) {
+            Planet p = planetMap.get(id);
+            if(p.getName().equals(name)){
+                return Mono.just(p);
+            }
+        }
+        return Mono.empty();
+    }
+
     @Override
     public Mono<Long> count() {
         return null;
@@ -85,8 +95,8 @@ public class ReactivePlanetRepository implements ReactiveCrudRepository<Planet, 
     }
 
     @Override
-    public Mono<Planet> findById(String arg0) {
-        return null;
+    public Mono<Planet> findById(String key) {
+        return Mono.justOrEmpty(planetMap.get(Integer.parseInt(key)));
     }
 
     @Override
