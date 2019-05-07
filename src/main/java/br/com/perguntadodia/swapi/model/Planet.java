@@ -1,47 +1,69 @@
 package br.com.perguntadodia.swapi.model;
 
+import java.util.UUID;
+
 public class Planet{
-    private Integer id;
-    private Integer swid;
+    private UUID id;
+    private String swid;
     private String name;
     private String climate;
     private String terrain;
     private Integer filmCount;
 
     public Planet(){
-
+        this.id = UUID.randomUUID();
     }
 
-    public Planet(Integer id, String name){
-        this.setId(id);
-        this.setName(name);
+    public static Planet clonePlanet(Planet p){
+
+        Planet copy = new Planet();
+
+        // copy other properties
+        copy.swid = p.swid;
+        copy.name = p.name;
+        copy.climate = p.climate;
+        copy.terrain = p.terrain;
+        copy.filmCount = p.filmCount;
+
+        return copy;
+    }
+
+    public static Planet fromSWPlanet(SWPlanet swplanet){
+        Planet p = new Planet();
+        p.swid = swplanet.getId();
+        p.name = swplanet.getName();
+        p.climate = swplanet.getClimate();
+        p.terrain = swplanet.getTerrain();
+        p.filmCount = swplanet.getFilms().size();
+
+        return p;
     }
 
     /**
      * @return the id
      */
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
     /**
      * @return the swid
      */
-    public Integer getSwid() {
+    public String getSwid() {
         return swid;
     }
 
     /**
      * @param swid the swid to set
      */
-    public void setSwid(Integer swid) {
+    public void setSwid(String swid) {
         this.swid = swid;
     }
 
@@ -130,5 +152,11 @@ public class Planet{
         } else if (!swid.equals(other.swid))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Planet [climate=" + climate + ", filmCount=" + filmCount + ", id=" + id + ", name=" + name + ", swid="
+                + swid + ", terrain=" + terrain + "]";
     }
 }
