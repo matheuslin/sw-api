@@ -12,18 +12,26 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 		SWWebClient swWebClient = new SWWebClient();
 
+		// fetches the planets from SWAPI
+		System.out.println("Populating Database with SWAPI Planets");
 		swWebClient.populateSWPlanets();
 
-		System.out.println(swWebClient.getPlanetList());
-		System.out.println(swWebClient.getSwPlanets());
-
+		// create a new planet
+		System.out.println("\n\n--[A new Planet]--");
 		Planet p = new Planet();
 		p.setName("AME");
-		p.setClimate("pleasant");
-		p.setTerrain("high grounds");
-
+		p.setClimate("very pleasant");
+		p.setTerrain("cityscape");
+		p.setFilmCount(0);
 		System.out.println(swWebClient.insertPlanet(p));
 
+
+		// get all planets list
+		System.out.println("\n\n--[All Planets]--");
 		System.out.println(swWebClient.getPlanetList());
+
+		// get only planets with a SWID (from SWAPI)
+		System.out.println("\n\n--[All Planets with a SWID (from SWAPI)]--");
+		System.out.println(swWebClient.getSwPlanets());
 	}
 }
