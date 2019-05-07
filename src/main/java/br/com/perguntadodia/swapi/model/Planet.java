@@ -153,4 +153,10 @@ public class Planet{
             return false;
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Planet [climate=" + climate + ", filmCount=" + filmCount + ", id=" + id + ", name=" + name + ", swid="
+                + swid + ", terrain=" + terrain + "]";
+    }
 }

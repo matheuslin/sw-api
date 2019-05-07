@@ -44,4 +44,9 @@ public class PlanetHandler {
     Mono<Planet> planet = serverRequest.bodyToMono(Planet.class);
     return ServerResponse.ok().body(planet.map(p -> { return Planet.clonePlanet( p ); } ).flatMap(planetRepository::save), Planet.class);
   }
+
+  public Mono<ServerResponse> delete(ServerRequest serverRequest){
+    planetRepository.deleteById(serverRequest.pathVariable("id"));
+    return ServerResponse.ok().build();
+  }
 }

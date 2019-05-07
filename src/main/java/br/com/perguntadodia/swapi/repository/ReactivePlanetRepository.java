@@ -40,12 +40,28 @@ public class ReactivePlanetRepository implements ReactiveCrudRepository<Planet, 
 
         Collection<Planet> allPlanets = planetMap.values();
         Set<Planet> swPlanets = new HashSet<Planet>();
-        for(Planet p : allPlanets){
-            if(p.getSwid() != null){
+        for (Planet p : allPlanets) {
+            if (p.getSwid() != null) {
                 swPlanets.add(p);
             }
         }
         return Flux.fromIterable(swPlanets);
+    }
+
+    @Override
+    public Flux<Planet> findAll() {
+        return Flux.fromIterable(planetMap.values());
+    }
+
+    @Override
+    public Mono<Planet> findById(String key) {
+        return Mono.justOrEmpty(planetMap.get(UUID.fromString(key)));
+    }
+
+    @Override
+    public Mono<Planet> save(Planet planet) {
+        this.planetMap.put(planet.getId(), planet);
+        return Mono.justOrEmpty(planetMap.get(planet.getId()));
     }
 
     @Override
@@ -74,7 +90,12 @@ public class ReactivePlanetRepository implements ReactiveCrudRepository<Planet, 
     }
 
     @Override
-    public Mono<Void> deleteById(String arg0) {
+    public Mono<Void> deleteById(String idArg) {
+        UUID id = UUID.fromString(idArg);
+        Planet removed = this.planetMap.remove(id);
+        if(removed != null){
+            return Mono.empty();
+        }
         return null;
     }
 
@@ -94,12 +115,6 @@ public class ReactivePlanetRepository implements ReactiveCrudRepository<Planet, 
     }
 
     @Override
-    public Flux<Planet> findAll() {
-        System.out.println(">> Current Map size: " + planetMap.size());
-        return Flux.fromIterable(planetMap.values());
-    }
-
-    @Override
     public Flux<Planet> findAllById(Iterable<String> arg0) {
         return null;
     }
@@ -110,24 +125,8 @@ public class ReactivePlanetRepository implements ReactiveCrudRepository<Planet, 
     }
 
     @Override
-    public Mono<Planet> findById(String key) {
-        return Mono.justOrEmpty(planetMap.get(UUID.fromString(key)));
-    }
-
-    @Override
     public Mono<Planet> findById(Publisher<String> arg0) {
         return null;
-    }
-
-    @Override
-    public Mono<Planet> save(Planet planet) {
-        System.out.println(">> Before saving repository size: " + this.planetMap.size());
-        
-        this.planetMap.put(planet.getId(), planet);
-
-        System.out.println(">> After saving repository size: " + this.planetMap.size());
-
-        return Mono.justOrEmpty(planetMap.get(planet.getId()));
     }
 
     @Override
@@ -139,5 +138,7 @@ public class ReactivePlanetRepository implements ReactiveCrudRepository<Planet, 
     public <S extends Planet> Flux<S> saveAll(Publisher<S> arg0) {
         return null;
     }
+
+    
     
 }

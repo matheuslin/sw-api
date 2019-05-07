@@ -33,5 +33,16 @@ public class Application {
 		// get only planets with a SWID (from SWAPI)
 		System.out.println("\n\n--[All Planets with a SWID (from SWAPI)]--");
 		System.out.println(swWebClient.getSwPlanets());
+
+		// Retrieving a planet
+		Planet planetByName = swWebClient.getPlanetByName("Kamino");
+		System.out.println("\n\n--[Find planet by exact name]--");
+		System.out.println(planetByName.toString());
+
+		// Removing Kamino planet from the Jedi Archive,
+		// according to Darth Sidious' plot to start the Clone Wars!
+		System.out.println("\n\n--[Deleting planet]--");
+		swWebClient.deletePlanetById(planetByName.getId().toString());
+		
 	}
 }
