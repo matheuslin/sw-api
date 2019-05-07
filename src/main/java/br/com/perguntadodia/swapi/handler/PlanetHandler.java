@@ -42,6 +42,6 @@ public class PlanetHandler {
 
   public Mono<ServerResponse> insertPlanet(ServerRequest serverRequest){
     Mono<Planet> planet = serverRequest.bodyToMono(Planet.class);
-    return ServerResponse.ok().body(planet.map(p -> new Planet( p.getId(), p.getName() )).flatMap(planetRepository::save), Planet.class);
+    return ServerResponse.ok().body(planet.map(p -> { return Planet.clonePlanet( p ); } ).flatMap(planetRepository::save), Planet.class);
   }
 }

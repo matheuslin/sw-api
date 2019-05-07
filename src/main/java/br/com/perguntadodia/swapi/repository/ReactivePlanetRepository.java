@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.reactivestreams.Publisher;
@@ -17,22 +18,16 @@ import reactor.core.publisher.Mono;
 @Repository
 public class ReactivePlanetRepository implements ReactiveCrudRepository<Planet, String> {
 
-    private final Map<Integer, Planet> planetMap = new ConcurrentHashMap<Integer, Planet>();
+    private final Map<UUID, Planet> planetMap = new ConcurrentHashMap<UUID, Planet>();
 
     public ReactivePlanetRepository() {
         super();
 
-        Planet planet2 = new Planet(2, "Tatooine");
-        planet2.setSwid(1);
-
-        planetMap.put(1, new Planet(1, "Earth"));
-        planetMap.put(2, planet2);
-        planetMap.put(3, new Planet(3, "Terralissio"));
-        planetMap.put(4, new Planet(4, "Talos IV"));
+        // fill up with planets from SWAPI
     }
 
     public Mono<Planet> findByName(String name) {
-        for (Integer id : planetMap.keySet()) {
+        for (UUID id : planetMap.keySet()) {
             Planet p = planetMap.get(id);
             if (p.getName().equals(name)) {
                 return Mono.just(p);
@@ -116,7 +111,7 @@ public class ReactivePlanetRepository implements ReactiveCrudRepository<Planet, 
 
     @Override
     public Mono<Planet> findById(String key) {
-        return Mono.justOrEmpty(planetMap.get(Integer.parseInt(key)));
+        return Mono.justOrEmpty(planetMap.get(UUID.fromString(key)));
     }
 
     @Override
