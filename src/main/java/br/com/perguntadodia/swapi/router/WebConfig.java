@@ -22,7 +22,7 @@ public class WebConfig implements WebFluxConfigurer {
       .andRoute(RequestPredicates.GET("/planets/name/{name}"), planetHandler::byName)
       .andRoute(RequestPredicates.GET("/planets/swid"), planetHandler::allSw)
       .andRoute(RequestPredicates.GET("/planets"), planetHandler::all)
-      // .andRoute(RequestPredicates.POST("/planets/{id}"), planetHandler::insertPlanet)
+      .andRoute(RequestPredicates.POST("/planets"), planetHandler::insertPlanet)
       ;
   }
 }

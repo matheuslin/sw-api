@@ -100,6 +100,7 @@ public class ReactivePlanetRepository implements ReactiveCrudRepository<Planet, 
 
     @Override
     public Flux<Planet> findAll() {
+        System.out.println(">> Current Map size: " + planetMap.size());
         return Flux.fromIterable(planetMap.values());
     }
 
@@ -124,8 +125,14 @@ public class ReactivePlanetRepository implements ReactiveCrudRepository<Planet, 
     }
 
     @Override
-    public <S extends Planet> Mono<S> save(S arg0) {
-        return null;
+    public Mono<Planet> save(Planet planet) {
+        System.out.println(">> Before saving repository size: " + this.planetMap.size());
+        
+        this.planetMap.put(planet.getId(), planet);
+
+        System.out.println(">> After saving repository size: " + this.planetMap.size());
+
+        return Mono.justOrEmpty(planetMap.get(planet.getId()));
     }
 
     @Override

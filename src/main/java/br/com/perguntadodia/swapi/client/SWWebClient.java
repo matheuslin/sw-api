@@ -4,6 +4,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import br.com.perguntadodia.swapi.model.Planet;
 import reactor.core.publisher.Mono;
 
 public class SWWebClient {
@@ -25,5 +26,14 @@ public class SWWebClient {
             .exchange();
         
             return result.flatMap( res -> res.bodyToMono(String.class)).block();
+    }
+
+    public String insertPlanet(Planet p){
+        Mono<ClientResponse> result = client.post()
+            .uri("planets")
+            .body(Mono.just(p), Planet.class)
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange();
+        return result.flatMap( res -> res.bodyToMono(String.class)).block();
     }
 }

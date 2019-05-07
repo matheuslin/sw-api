@@ -39,4 +39,9 @@ public class PlanetHandler {
     Flux<Planet> planets = this.planetRepository.findAllSw();
     return ServerResponse.ok().body(planets, Planet.class);
   }
+
+  public Mono<ServerResponse> insertPlanet(ServerRequest serverRequest){
+    Mono<Planet> planet = serverRequest.bodyToMono(Planet.class);
+    return ServerResponse.ok().body(planet.map(p -> new Planet( p.getId(), p.getName() )).flatMap(planetRepository::save), Planet.class);
+  }
 }
