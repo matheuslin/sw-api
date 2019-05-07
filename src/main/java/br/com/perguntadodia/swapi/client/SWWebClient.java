@@ -17,4 +17,13 @@ public class SWWebClient {
         
             return result.flatMap( res -> res.bodyToMono(String.class)).block();
     }
+
+    public String getSwPlanets(){
+        Mono<ClientResponse> result = client.get()
+            .uri("planets/swid")
+            .accept(MediaType.TEXT_PLAIN)
+            .exchange();
+        
+            return result.flatMap( res -> res.bodyToMono(String.class)).block();
+    }
 }

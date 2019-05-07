@@ -11,5 +11,6 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 		SWWebClient swWebClient = new SWWebClient();
 		System.out.println(swWebClient.getPlanetList());
+		System.out.println(swWebClient.getSwPlanets());
 	}
 }

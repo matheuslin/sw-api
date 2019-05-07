@@ -1,6 +1,9 @@
 package br.com.perguntadodia.swapi.repository;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.reactivestreams.Publisher;
@@ -16,22 +19,38 @@ public class ReactivePlanetRepository implements ReactiveCrudRepository<Planet, 
 
     private final Map<Integer, Planet> planetMap = new ConcurrentHashMap<Integer, Planet>();
 
-    public ReactivePlanetRepository(){
+    public ReactivePlanetRepository() {
         super();
+
+        Planet planet2 = new Planet(2, "Tatooine");
+        planet2.setSwid(1);
+
         planetMap.put(1, new Planet(1, "Earth"));
-        planetMap.put(2, new Planet(2, "Tatooine"));
+        planetMap.put(2, planet2);
         planetMap.put(3, new Planet(3, "Terralissio"));
         planetMap.put(4, new Planet(4, "Talos IV"));
     }
 
-    public Mono<Planet> findByName(String name){
+    public Mono<Planet> findByName(String name) {
         for (Integer id : planetMap.keySet()) {
             Planet p = planetMap.get(id);
-            if(p.getName().equals(name)){
+            if (p.getName().equals(name)) {
                 return Mono.just(p);
             }
         }
         return Mono.empty();
+    }
+
+    public Flux<Planet> findAllSw() {
+
+        Collection<Planet> allPlanets = planetMap.values();
+        Set<Planet> swPlanets = new HashSet<Planet>();
+        for(Planet p : allPlanets){
+            if(p.getSwid() != null){
+                swPlanets.add(p);
+            }
+        }
+        return Flux.fromIterable(swPlanets);
     }
 
     @Override

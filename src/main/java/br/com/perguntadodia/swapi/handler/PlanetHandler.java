@@ -34,4 +34,9 @@ public class PlanetHandler {
     Mono<Planet> planet = this.planetRepository.findByName(name);
     return ServerResponse.ok().body(planet, Planet.class);
   }
+
+  public Mono<ServerResponse> allSw(ServerRequest serverRequest){
+    Flux<Planet> planets = this.planetRepository.findAllSw();
+    return ServerResponse.ok().body(planets, Planet.class);
+  }
 }
